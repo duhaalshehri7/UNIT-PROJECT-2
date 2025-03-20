@@ -1,0 +1,71 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Sign Up as a Designer{% endblock %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h2 class="text-center">Sign Up as a Designer</h2>
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <form method="POST" class="p-4 border rounded bg-light shadow-sm">
+          {% csrf_token %}
+
+          <div class="mb-3">
+            <label for="id_username" class="form-label">Username:</label>
+            <input type="text" name="username" id="id_username" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="id_email" class="form-label">Email:</label>
+            <input type="email" name="email" id="id_email" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="id_password1" class="form-label">Password:</label>
+            <input type="password" name="password1" id="id_password1" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="id_password2" class="form-label">Confirm Password:</label>
+            <input type="password" name="password2" id="id_password2" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="id_specialty" class="form-label">Specialty:</label>
+            <select name="specialty" id="id_specialty" class="form-select">
+              {% for value, label in form.fields.specialty.choices %}
+                <option value="{{ value }}">{{ label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="id_experience" class="form-label">Experience:</label>
+            <textarea name="experience" id="id_experience" class="form-control" rows="4"></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label for="id_location" class="form-label">Location:</label>
+            <input type="text" name="location" id="id_location" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="id_experience_level" class="form-label">Experience Level:</label>
+            <select name="experience_level" id="id_experience_level" class="form-select">
+              {% for value, label in form.fields.experience_level.choices %}
+                <option value="{{ value }}">{{ label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="id_pricing" class="form-label">Pricing:</label>
+            <input type="number" name="pricing" id="id_pricing" class="form-control" step="0.01">
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

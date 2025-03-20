@@ -1,0 +1,15 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Main Page{% endblock %}
+
+{% block content %}
+    <div class="text-center mt-5">
+        <h1>Do you want to sign in as a Designer or Client?</h1>
+
+        <div class="mt-4">
+            <a href="{% url 'users:designer_signup_view' %}" class="btn btn-primary btn-lg">Sign in as Designer</a>
+            <a href="{% url 'users:client_signup_view' %}" class="btn btn-success btn-lg">Sign in as Client</a>
+        </div>
+    </div>
+{% endblock %}
+
