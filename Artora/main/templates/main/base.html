@@ -28,9 +28,33 @@
 
       <div class="collapse navbar-collapse justify-content-end" id="navbarsExample07">
         <ul class="navbar-nav mb-0 d-flex gap-3 align-items-center">
-          <li class="nav-item">
-            <a class="nav-link active" href="{% url 'designer:all_designer_view' %}">All Designers</a>
-          </li>
+
+
+   {% if request.user.is_authenticated and request.user.is_designer %}
+
+    {% if post1 %}
+        <li class="nav-item">
+            <a class="nav-link active" href="{% url 'users:view_post_view' post1.id %}">View your Profile</a>
+        </li>
+            {% else %}
+            <li class="nav-item">
+        <a class="nav-link active" href="{% url 'users:create_post_view' %}">Post your Profile</a>
+    </li>
+    {% endif %}
+
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link active" href="{% url 'designer:all_designer_view' %}">All Designers</a>
+            </li>
+{% endif %}
+
+
+
+
+
+
+
+
           <li class="nav-item">
             <a class="nav-link" href="#">Contact Us</a>
           </li>

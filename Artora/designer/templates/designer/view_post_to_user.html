@@ -1,0 +1,63 @@
+{% extends 'main/base.html' %}
+
+{% block title %}{{ profile.designer.user.username }}'s Profile{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="d-flex align-items-center mb-4">
+        <img src="{{ profile.profile_photo.url }}" alt="Profile Photo" class="rounded-circle me-3" width="60" height="60" style="object-fit: cover;">
+        <h4 class="mb-0">{{ profile.designer.user.username }}</h4>
+    </div>
+
+    <div class="row align-items-start">
+        <div class="col-md-6 text-center">
+            {% if profile.work_samples.all %}
+            <div id="workSampleCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
+                <div class="carousel-inner rounded">
+                    {% for sample in profile.work_samples.all %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <img src="{{ sample.image.url }}" class="d-block w-100 rounded border" alt="Work Sample" style="max-height: 250px; object-fit: contain;">
+                    </div>
+                    {% endfor %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#workSampleCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#workSampleCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+            {% endif %}
+
+            <div class="text-start ps-3">
+                {% if profile.instagram_url %}
+                <p><strong>Instagram:</strong> <a href="{{ profile.instagram_url }}" target="_blank" class="text-decoration-none">{{ profile.instagram_url }}</a></p>
+                {% endif %}
+                {% if profile.linkedin_url %}
+                <p><strong>LinkedIn:</strong> <a href="{{ profile.linkedin_url }}" target="_blank" class="text-decoration-none">{{ profile.linkedin_url }}</a></p>
+                {% endif %}
+                {% if profile.portfolio_url %}
+                <p><strong>Portfolio:</strong> <a href="{{ profile.portfolio_url }}" target="_blank" class="text-decoration-none">{{ profile.portfolio_url }}</a></p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="ps-md-4">
+                <h5 class="mb-3">About Me</h5>
+                <p class="text-muted">{{ profile.about_me }}</p>
+                <hr>
+                <h6>Availability</h6>
+                <p>{% if profile.availability %}Available{% else %}Not Available{% endif %}</p>
+                <h6>Contact Email</h6>
+                <p><a href="mailto:{{ profile.contact_email }}" class="text-decoration-none">{{ profile.contact_email }}</a></p>
+                <a class="btn btn-dark" href="#" role="button">Send Request Now! </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

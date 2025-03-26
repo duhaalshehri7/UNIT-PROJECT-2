@@ -1,0 +1,40 @@
+{% extends 'main/base.html' %}
+
+{% block title %}{{ user.username }}'s Post view{% endblock %}
+
+{% block content %}
+    <h2>Post Details</h2>
+
+    {% if post1 %}
+
+        <div>
+            <h3>{{ post1.designer.user.username }}'s Profile</h3>
+            <img src="{{ post.profile_photo.url }}" alt="Profile Photo" width="200">
+            <p><strong>About Me:</strong> {{ post1.about_me }}</p>
+            <p><strong>Availability:</strong> {% if post1.availability %} Available {% else %} Not Available {% endif %}</p>
+            <p><strong>Contact Email:</strong> <a href="mailto:{{ post.contact_email }}">{{ post1.contact_email }}</a></p>
+            <p><strong>Portfolio URL:</strong> <a href="{{ post.portfolio_url }}" target="_blank">{{ post1.portfolio_url }}</a></p>
+            <p><strong>Instagram:</strong> <a href="{{ post.instagram_url }}" target="_blank">{{ post1.instagram_url }}</a></p>
+            <p><strong>LinkedIn:</strong> <a href="{{ post.linkedin_url }}" target="_blank">{{ post1.linkedin_url }}</a></p>
+
+            {% if post1.work_samples.all %}
+                <h4>Work Samples:</h4>
+                <div>
+                    {% for sample in post1.work_samples.all %}
+                        <img src="{{ sample.image.url }}" alt="Work Sample" width="200">
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>No work samples available.</p>
+            {% endif %}
+
+            <button><a href="{% url 'users:edit_post_view' post1.id %}">edit you post</a></button>
+
+
+        </div>
+    {% else %}
+
+        <p>No post found. You can create a post by clicking the button below.</p>
+        <a href="{% url 'users:create_post_view' %}" class="btn btn-primary">Create Your Post</a>
+    {% endif %}
+{% endblock %}

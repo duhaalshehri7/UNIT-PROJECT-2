@@ -1,7 +1,30 @@
 {% extends 'main/base.html' %}
 
-{% block title %} all designer page {% endblock %}
+{% block title %}All Designers{% endblock %}
 
 {% block content %}
-<h2>all designer</h2>
+<div class="container">
+    <h4 class="text-center mb-4">All Designers</h4>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        {% for post in posts %}
+            <div class="col">
+                <div class="card h-100 shadow-sm" style="font-size: 0.85rem;">
+                    <img src="{{ post.profile_photo.url }}" class="card-img-top" alt="Profile Photo"
+                         style="height: 150px; object-fit: cover;">
+                    <div class="card-body p-2">
+                        <h6 class="card-title mb-1">{{ post.designer.user.username }}</h6>
+                        <p class="mb-1"><strong>Specialty:</strong> {{ post.designer.specialty }}</p>
+                        <p class="mb-1"><strong>Availability:</strong>
+                            {% if post.availability %}Available{% else %}Not Available{% endif %}
+                        </p>
+                        <a href="{% url 'designer:post_to_user_view' post.id %}" class="btn btn-sm btn-outline-primary">View</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-center">No designers have posted yet.</p>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

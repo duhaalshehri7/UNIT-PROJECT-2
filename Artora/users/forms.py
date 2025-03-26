@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import CustomUser, DesignerProfile
+from .models import CustomUser, DesignerProfile, DesignerPost, DesignerPostImage
 
 class ClientSignUpForm(UserCreationForm):
     class Meta:
@@ -32,3 +32,13 @@ class DesignerSignUpForm(UserCreationForm):
                 pricing=self.cleaned_data.get('pricing')
             )
         return user
+
+
+
+class DesignerPostForm(forms.ModelForm):
+    class Meta:
+        model = DesignerPost
+        fields = [
+            'profile_photo', 'about_me', 'availability', 'contact_email',
+            'portfolio_url', 'instagram_url', 'linkedin_url'
+        ]

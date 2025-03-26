@@ -41,7 +41,6 @@ class DesignerProfile(models.Model):
     def __str__(self):
         return f"{self.user} - {self.specialty}"
 
-
 class DesignerPost(models.Model):
     designer = models.OneToOneField(DesignerProfile, on_delete=models.CASCADE)
     profile_photo = models.ImageField(upload_to="profile_photos", default="img/default_user.jpg")
@@ -55,6 +54,7 @@ class DesignerPost(models.Model):
 
     def __str__(self):
         return f"{self.designer} - {self.profile_photo}"
+
 
 
 

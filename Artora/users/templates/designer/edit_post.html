@@ -1,0 +1,20 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Edit your post {% endblock %}
+
+{% block content %}
+<h2>Edit Your Post</h2>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Update Post</button>
+</form>
+
+<h3>Delete Your Post</h3>
+<form method="post" action="{% url 'users:delete_post_view' post.id %}">
+    {% csrf_token %}
+    <button type="submit" style="color: red;">Delete Post</button>
+</form>
+
+{% endblock %}
