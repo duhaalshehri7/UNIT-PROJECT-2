@@ -17,5 +17,6 @@ urlpatterns = [
     path('post/edit/<post_id>/', views.edit_post_view, name='edit_post_view'),
     path('post/delete/<post_id>/', views.delete_post_view, name='delete_post_view'),
     path('post/view/<post_id>/', views.view_post_view, name='view_post_view'),
+    path('bookmark/<post_id>/', views.add_bookmark_view, name='add_bookmark_view'),
 
 ]

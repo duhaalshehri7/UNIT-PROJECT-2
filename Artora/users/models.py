@@ -64,3 +64,9 @@ class DesignerPostImage(models.Model):
     def __str__(self):
         return f"{self.designer_post} - {self.image}"
 
+
+class Bookmark(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    designer_post = models.ForeignKey(DesignerPost, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+

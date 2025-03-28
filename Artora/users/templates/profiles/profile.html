@@ -6,7 +6,7 @@
 
 
 <div class="container mt-5">
-    <h2 class="text-center">Profile of {{ user.username }}</h2>
+    <h2 class="text-center">{{ user.username }}'s Profile</h2>
 
     <div class="card p-4 shadow-sm">
         <p><strong>Username:</strong> {{ user.username }}</p>
@@ -27,6 +27,33 @@
         {% endif %}
     </div>
 </div>
+{% if request.user.is_authenticated and request.user == user and not request.user.is_designer %}
+    <h3 class="mt-5">My Bookmarked Designers</h3>
+<hr>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-3">
+        {% for bookmark in request.user.bookmark_set.all %}
+          <div class="col">
+    <div class="card shadow-sm text-center p-3">
+        <img src="{{ bookmark.designer_post.profile_photo.url }}"
+             class="rounded-circle mx-auto"
+             style="width: 80px; height: 80px; object-fit: cover;"
+             alt="Designer Photo">
+
+                <div class="card-body">
+                    <h6 class="card-title mt-2 mb-1">{{ bookmark.designer_post.designer.user.username }}</h6>
+                    <a href="{% url 'designer:post_to_user_view' bookmark.designer_post.id %}" class="btn btn-outline-primary btn-sm">
+                        View Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+            <p class="text-muted">You have no bookmarks yet.</p>
+        {% endfor %}
+    </div>
+{% endif %}
+
 
 
 

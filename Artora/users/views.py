@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from .forms import ClientSignUpForm, DesignerSignUpForm,DesignerPostForm
 from django.http import HttpRequest, HttpResponse
 
-from .models import CustomUser,DesignerPost, DesignerPostImage, DesignerProfile
+from .models import CustomUser,DesignerPost, DesignerPostImage, DesignerProfile, Bookmark
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
@@ -208,3 +208,27 @@ def view_post_view(request, post_id):
         post1 = None
 
     return render(request, 'designer/view_post.html', {'post1': post1})
+
+
+
+def add_bookmark_view(request, post_id):
+    if not request.user.is_authenticated:
+        messages.error(request, "Only registered users can add bookmarks", "alert-danger")
+        return redirect("users:login_view")
+
+    try:
+        post = DesignerPost.objects.get(pk=post_id)
+
+        bookmark = Bookmark.objects.filter(designer_post=post, user=request.user).first()
+        if not bookmark:
+            Bookmark.objects.create(user=request.user, designer_post=post)
+            messages.success(request, "Bookmark added", "alert-success")
+        else:
+            bookmark.delete()
+            messages.warning(request, "Bookmark removed", "alert-warning")
+
+    except Exception as e:
+        print("Bookmark error:", e)
+
+    return redirect("designer:post_to_user_view", post_id=post_id)
+

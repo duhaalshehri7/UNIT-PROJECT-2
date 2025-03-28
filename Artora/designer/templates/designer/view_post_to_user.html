@@ -7,6 +7,13 @@
     <div class="d-flex align-items-center mb-4">
         <img src="{{ profile.profile_photo.url }}" alt="Profile Photo" class="rounded-circle me-3" width="60" height="60" style="object-fit: cover;">
         <h4 class="mb-0">{{ profile.designer.user.username }}</h4>
+        <a href="{% url 'users:add_bookmark_view' profile.id %}" class="ms-auto">
+                {% if is_bookmarked %}
+                    <i class="bi bi-bookmark-check-fill" style="color: black; font-size: 1.5rem;"></i>
+                {% else %}
+                    <i class="bi bi-bookmark-plus" style="color: black; font-size: 1.5rem;"></i>
+                {% endif %}
+            </a>
     </div>
 
     <div class="row align-items-start">
@@ -58,6 +65,55 @@
         </div>
     </div>
 </div>
+
+
+
+<hr>
+<div class="container my-5">
+    <h2>Reviews ({{ comments.count }})</h2>
+
+    <div class="d-flex flex-column gap-3">
+        {% for comment in comments %}
+            <div class="d-flex flex-column p-3 shadow rounded">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <div class="d-flex gap-2 align-items-center">
+                        <h5 class="m-0">{{ comment.user.username }}</h5>
+                    </div>
+                    <div class="d-flex align-items-center gap-1">
+                        <span class="material-symbols-outlined text-warning">star</span>
+                        <h6 class="m-0">{{ comment.rating }}</h6>
+                    </div>
+                </div>
+                <p class="mb-1">{{ comment.comment }}</p>
+                <small class="text-muted">{{ comment.created_at|date:"M d, Y H:i" }}</small>
+            </div>
+        {% empty %}
+            <p>No reviews yet. Be the first to leave one!</p>
+        {% endfor %}
+    </div>
+
+    {% if request.user.is_authenticated and not request.user.is_designer %}
+        <h2 class="mt-5">Add Review</h2>
+        <form class="d-flex flex-column gap-3" method="POST">
+            {% csrf_token %}
+            <textarea name="comment" class="form-control" required minlength="3" placeholder="Write your comment..."></textarea>
+            <select name="rating" class="form-select" required>
+                <option value="">Select Rating</option>
+                <option value="1">One Star</option>
+                <option value="2">Two Stars</option>
+                <option value="3">Three Stars</option>
+                <option value="4">Four Stars</option>
+                <option value="5">Five Stars</option>
+            </select>
+            <input type="submit" class="btn btn-dark w-25" value="Submit Review">
+        </form>
+    {% else %}
+        <div class="alert alert-warning mt-4" role="alert">
+            Only registered clients can leave a review. <a href="{% url 'users:login_view' %}">Login</a> to review.
+        </div>
+    {% endif %}
+</div>
+
 
 
 {% endblock %}
