@@ -1,140 +1,46 @@
 # UNIT-PROJECT-2
 
-## Create a Project of your own choosing
+## Project Name:    Artora 
 
-Base on what you’ve learned until now , create a project of your choosing. Impress us with your creativity and execution.
+## Project Description:
+  Artora is a web-based platform built with Django that connects talented designers with clients seeking creative services. Designers can showcase their work, while clients can browse profiles, leave reviews, and bookmark their favorite portfolios. The platform supports designer sign-up, profile creation, and rating functionalities in a user-friendly environment.
+        
+## Features List:
+-	User registration and login (Designer or Client)
+-	Designer profile creation with portfolio samples, where he can post it to user to view
+- **Client ability to:**
+    - View designer profiles.
+    - Filter/search by specialty and availability.
+    - Leave reviews and ratings.
+-	Bookmark designers
+-	Profile editing and deletion for both designers and clients
+-	Pagination and responsive design
 
+## User Stories
 
-## Minimum Requirements
-- Use Django.
-- Use Templates & Template Inheritance.
-- Use static, media & dynamic urls as needed.
-- Organize your project in apps as needed.
-- Use models to represent you data.
-- Use a CSS library to style your website.
-- Must be responsive (good looking of big screens and small screens).
-- User Authentication & Authorization (register, login, logout, Limit access to some pages using permissions , etc.)
-- Use naming conventions & best practices.
-- Strive to make the user journey intuitive and complete.
-
-## Use python-dotenv to save your sensitive data.
-- https://pypi.org/project/python-dotenv/
-
-
-## Use a CDN or cloud storage provider to sore your large static files (videos, images, etc.), such as:
-- https://firebase.google.com/docs/storage
-
-## Use Git & Github to manage and track changes in your project.
-- At lease commit and sync the changes once at the end of everyday.
-
-## Edit the README.md file to include (include the info at the top):
-- Project Name
-- Project Description
-- Features list.
-- User Stories (link or file)
-- UML (link or file)
-- Wireframe (link or file)
+**Designer User Stories**
+- **Sign Up**
+    - As a designer, I want to sign up as a designer, so that I can showcase my work on Artora.
+- **Create Profile**
+    - As a designer, I want to create a profile post with my specialty and experience, so that clients can know what I offer.
+- **Edit/Delete Profile**
+    - As a designer, I want to be able to edit or delete my profile, so I can update or remove my presence if needed.
 
 
-## Example Projects :
+**Client User Stories**
+- **Sign Up**
+    - As a client, I want to sign up as a client, so that I can give my feedback and rating to designers.
+- **Browse Designers**
+    - As a client, I want to browse all designer profiles, so that I can find someone who fits my project.
+- **Filter/Search**
+    - As a client, I want to filter designers by specialty or availability, so I can easily find the right match.
+- **Bookmark Designers**
+    - As a client, I want to bookmark designers I like, so I can return to them later.
+- **Leave Comments and Ratings**
+    - As a client, I want to leave feedback and a rating on a designer’s profile, so I can help others and support good work.
+    
 
+## **files**
+[Artora-Wireframe.pdf](https://github.com/user-attachments/files/19665015/Artora-Wireframe.pdf)
+[Artora UML diagram.pdf](https://github.com/user-attachments/files/19665018/Artora.UML.diagram.pdf)
 
-1. **Task Management System:**
-- **Overview:** Create a platform for managing tasks and projects within a team or organization.
-- **Features:**
-- User authentication and role-based access control.
-- Task creation, assignment, and tracking.
-- Project management with milestones.
-- File uploads and comments on tasks.
-- Notification system for task updates.
-
-
-
-
-**Online Learning Platform:**
-
-- **Overview:** Develop a platform for online courses, quizzes, and educational resources.
-- **Features:**
-- User registration and profile management.
-- Course creation and enrollment.
-- Quiz and assessment functionalities.
-- Progress tracking and certificates.
-
-
-
-
-**Crowdfunding Platform:**
-
-- **Overview:** Build a crowdfunding website where users can create campaigns and seek financial support for their projects.
-- **Features:**
-    - User profiles with project history.
-    - Campaign creation and customization.
-    - Payment integration for contributions.
-    - Progress tracking and updates.
-
-**Job Board and Recruitment System:**
-
-- **Overview:** Develop a platform for job seekers and employers to connect.
-- **Features:**
-    - User profiles with resumes.
-    - Job posting and application functionalities.
-    - Search and filter options for jobs.
-    - Employer dashboards for managing postings.
-
-
-**Inventory Management System:**
-
-- **Overview:** Build a system for tracking and managing inventory for businesses.
-- **Features:**
-    - User authentication with roles (e.g., admin, staff).
-    - Product catalog with stock levels.
-    - Order processing and tracking.
-    - Reporting and analytics.
-
-
-**Recipe Sharing Platform:**
-
-- **Overview:** Create a platform where users can share and discover recipes.
-- **Features:**
-    - User accounts with saved recipes.
-    - Recipe creation and editing.
-    - Search and categorization of recipes.
-    - User ratings and reviews.
-      
-## Resources:
-
-**Free high quality images :**
-
-- https://www.pexels.com/
-- https://unsplash.com
-
-**Free sounds website:**
-
-- https://mixkit.co/
-
-**Free stock videos:**
-
-- https://pixabay.com/videos/
-
-**Free Fonts:**
-
-- https://fonts.google.com
-
-**Free Icons**
-
-- https://fonts.google.com/icons
-- https://icons.getbootstrap.com/
-
-**CSS Library:**
-
-- https://getbootstrap.com/
-- https://get.foundation/index.html
-
-**CSS Animation libraries:**
-
-- https://animate.style
-- https://www.minimamente.com/project/magic/
-
-
-
- 
