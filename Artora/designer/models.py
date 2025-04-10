@@ -18,7 +18,8 @@ class Comment(models.Model):
     rating = models.IntegerField(choices=RatingChoices.choices, default=RatingChoices.STAR5)
     comment = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-
+    def __str__(self):
+        return self.user.username
 
 
 

@@ -1,0 +1,47 @@
+{% extends 'main/base.html' %}
+
+{% block title %}About Me | Artora{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold">About</h1>
+        <p class="text-muted">The person behind Artora</p>
+    </div>
+
+    <div class="row align-items-center mb-5">
+        <div class="col-md-6">
+            <img src="/static/img/p11.jpg" class="img-fluid rounded shadow" alt="About Me">
+        </div>
+        <div class="col-md-6">
+            <h3 class="mb-3">Hi, I'm Duha the creator of Artora!</h3>
+            <p>
+                I built Artora because I believe in the power of design and the people behind it. Whether you're a client looking for talent, or a designer wanting to be discovered — I wanted to create a space where those connections can happen easily and beautifully.
+            </p>
+            <p>
+                As a student and a self-taught developer, I combined what I love — design, creativity, and code — into this platform. Artora is my way of supporting designers while learning and growing through this journey myself.
+            </p>
+        </div>
+    </div>
+
+    <div class="row align-items-center flex-md-row-reverse">
+        <div class="col-md-6">
+            <img src="/static/img/p22.jpg" class="img-fluid rounded shadow" alt="My Journey">
+        </div>
+        <div class="col-md-6">
+            <h3 class="mb-3">My Vision</h3>
+            <p>
+                I want Artora to become a supportive space for creatives. Not too complicated. Not too corporate. Just real people connecting through good work.
+            </p>
+            <p>
+                Thank you for stopping by, and I hope Artora helps you find what you're looking for — or at least inspires you to build your own thing too.
+            </p>
+        </div>
+    </div>
+
+    <div class="text-center mt-5">
+        <a href="{% url 'designer:all_designer_view' %}" class="btn btn-outline-dark btn-lg">Explore Designers</a>
+    </div>
+
+</div>
+{% endblock %}

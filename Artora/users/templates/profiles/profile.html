@@ -1,44 +1,60 @@
 {% extends 'main/base.html' %}
 
-{% block title %}{{ user.username }}'s Profile{% endblock %}
+{% block title %}{{ profile_user.username }}'s Profile{% endblock %}
 
 {% block content %}
-
-
 <div class="container mt-5">
-    <h2 class="text-center">{{ user.username }}'s Profile</h2>
+    <h2 class="text-center mb-4">{{ profile_user.username }}'s Profile</h2>
 
     <div class="card p-4 shadow-sm">
-        <p><strong>Username:</strong> {{ user.username }}</p>
-        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Username:</strong> {{ profile_user.username }}</p>
+        <p><strong>Email:</strong> {{ profile_user.email }}</p>
 
-        {% if user.is_designer and designer_profile %}
-        <hr>
-        <h4>Designer Profile</h4>
-        <p><strong>Specialty:</strong> {{ designer_profile.specialty }}</p>
-        <p><strong>Experience Level:</strong> {{ designer_profile.experience_level }}</p>
-        <p><strong>Location:</strong> {{ designer_profile.location }}</p>
-        <p><strong>Pricing:</strong> ${{ designer_profile.pricing }}</p>
-        <p><strong>Experience:</strong></p>
-        <p>{{ designer_profile.experience }}</p>
+        {% if not profile_user.is_designer and profile_user.description %}
+            <hr>
+            <h5>Description</h5>
+            <p>{{ profile_user.description }}</p>
+        {% endif %}
+
+        {% if profile_user.is_designer and designer_profile %}
+            <hr>
+            <h5>Designer Profile</h5>
+            <p><strong>Specialty:</strong> {{ designer_profile.specialty }}</p>
+            <p><strong>Experience Level:</strong> {{ designer_profile.experience_level }}</p>
+            <p><strong>Location:</strong> {{ designer_profile.location }}</p>
+            <p><strong>Pricing:</strong> {{ designer_profile.pricing }} SAR</p>
+            <p><strong>Experience:</strong></p>
+            <p>{{ designer_profile.experience }}</p>
         {% else %}
-        <hr>
-        <p class="text-center">We're excited to have you on Artora. Start exploring and connect with talented designers today!</p>
+            <hr>
+            <p class="text-center text-muted">We're excited to have you on Artora. Start exploring and connect with talented designers today!</p>
         {% endif %}
     </div>
-</div>
-{% if request.user.is_authenticated and request.user == user and not request.user.is_designer %}
-    <h3 class="mt-5">My Bookmarked Designers</h3>
-<hr>
 
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-3">
+
+    {% if request.user.id == profile_user.id %}
+        <div class="text-center mt-3">
+            <a href="{% url 'users:edit_user_profile_view' profile_user.id %}" class="btn btn-outline-secondary btn-sm">Edit Profile</a>
+        </div>
+    {% endif %}
+
+
+
+</div>
+
+{% if request.user.is_authenticated and request.user == profile_user and not request.user.is_designer %}
+<div class="container mt-5">
+    <h4 class="mb-3">My Bookmarked Designers</h4>
+    <hr>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         {% for bookmark in request.user.bookmark_set.all %}
-          <div class="col">
-    <div class="card shadow-sm text-center p-3">
-        <img src="{{ bookmark.designer_post.profile_photo.url }}"
-             class="rounded-circle mx-auto"
-             style="width: 80px; height: 80px; object-fit: cover;"
-             alt="Designer Photo">
+        <div class="col">
+            <div class="card shadow-sm text-center p-3">
+                <img src="{{ bookmark.designer_post.profile_photo.url }}"
+                     class="rounded-circle mx-auto"
+                     style="width: 80px; height: 80px; object-fit: cover;"
+                     alt="Designer Photo">
 
                 <div class="card-body">
                     <h6 class="card-title mt-2 mb-1">{{ bookmark.designer_post.designer.user.username }}</h6>
@@ -48,13 +64,11 @@
                 </div>
             </div>
         </div>
+
         {% empty %}
-            <p class="text-muted">You have no bookmarks yet.</p>
+            <p class="text-muted text-center">You have no bookmarks yet.</p>
         {% endfor %}
     </div>
+</div>
 {% endif %}
-
-
-
-
 {% endblock %}

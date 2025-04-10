@@ -1,0 +1,43 @@
+{% extends 'main/base.html' %}
+
+{% block title %} Contact us {% endblock %}
+
+{% block content %}
+<div class="container p-5">
+<h1>Contact us</h1>
+
+
+
+
+<form method="post" action="{% url 'contact:contact_us_view'%}">
+    {% csrf_token %}
+
+    <div class="row align-items-center mt-4">
+
+        <div class="col-md-6 d-flex flex-column gap-3">
+            <label class="form-label">First name:</label>
+            <input type="text" placeholder="First name" name="first_name" class="form-control" required minlength="2" maxlength="512"/>
+
+            <label class="form-label">Last name:</label>
+            <input type="text" placeholder="Last name" name="last_name" class="form-control" required minlength="2" maxlength="512"/>
+
+            <label class="form-label">Email address:</label>
+            <input type="email" name="email" class="form-control" id="email" placeholder="name@example.com" required>
+
+            <label class="form-label">Your message:</label>
+            <textarea class="form-control" name="message" id="message" rows="4" style="height: 150px;"></textarea>
+
+
+            <div class="d-flex gap-2">
+                <input type="submit" value="Submit" class="btn btn-dark mt-2" />
+            </div>
+        </div>
+
+        <div class="col-md-6 text-center">
+            <img src="/static/img/123c copy.jpg" class="img-fluid bg-black rounded shadow" style="max-width: 100%; height: auto;" alt="design"/>
+        </div>
+    </div>
+</form>
+
+</div>
+{% endblock %}

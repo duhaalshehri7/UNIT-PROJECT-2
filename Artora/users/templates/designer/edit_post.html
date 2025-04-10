@@ -1,20 +1,78 @@
 {% extends 'main/base.html' %}
 
-{% block title %}Edit your post {% endblock %}
+{% block title %}Edit Your Post{% endblock %}
 
 {% block content %}
-<h2>Edit Your Post</h2>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Edit Your Designer Post</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form method="post" enctype="multipart/form-data" class="p-4 border rounded shadow-sm bg-light">
+                {% csrf_token %}
 
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Update Post</button>
-</form>
+                <div class="mb-3">
+                    <label  class="form-label">Profile Photo</label>
+                    {{ form.profile_photo }}
+                </div>
 
-<h3>Delete Your Post</h3>
-<form method="post" action="{% url 'users:delete_post_view' post.id %}">
-    {% csrf_token %}
-    <button type="submit" style="color: red;">Delete Post</button>
-</form>
+                <div class="mb-3">
+                    <label class="form-label">About Me</label>
+                    {{ form.about_me }}
+                </div>
 
+                <div class="mb-3">
+                    <label  class="form-label">Availability</label>
+                    {{ form.availability }}
+                </div>
+
+                <div class="mb-3">
+                    <label  class="form-label">Contact Email</label>
+                    {{ form.contact_email }}
+                </div>
+
+                <div class="mb-3">
+                    <label  class="form-label">Portfolio URL</label>
+                    {{ form.portfolio_url }}
+                </div>
+
+                <div class="mb-3">
+                    <label  class="form-label">Instagram URL</label>
+                    {{ form.instagram_url }}
+                </div>
+
+                <div class="mb-3">
+                    <label  class="form-label">LinkedIn URL</label>
+                    {{ form.linkedin_url }}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Add More Work Samples (Select multiple files)</label>
+                    <input type="file" name="work_samples" multiple class="form-control">
+                </div>
+
+                {% if work_samples %}
+                <hr>
+                <h5 class="mb-3">Existing Work Samples</h5>
+                <div class="d-flex flex-wrap gap-3">
+                    {% for sample in work_samples %}
+                        <div class="position-relative border rounded p-1 bg-white">
+                            <img src="{{ sample.image.url }}" alt="Sample" class="rounded" style="width: 120px; height: auto;">
+                        </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <button type="submit" class="btn btn-primary w-100 mt-4">Update Post</button>
+            </form>
+
+            <hr class="my-5">
+
+            <h4 class="text-danger">Delete Your Post</h4>
+            <form method="post" action="{% url 'users:delete_post_view' post.id %}" class="mt-3">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger w-100">Delete Post</button>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

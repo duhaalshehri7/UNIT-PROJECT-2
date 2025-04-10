@@ -4,6 +4,8 @@ from django.db import models
 
 class CustomUser(AbstractUser):
     is_designer = models.BooleanField(default=False)
+    description = models.TextField(blank=True, null=True)
+
     groups = models.ManyToManyField(
         'auth.Group',
         related_name='customuser_set',

@@ -3,10 +3,36 @@
 {% block title %}{{ profile.designer.user.username }}'s Profile{% endblock %}
 
 {% block content %}
+<style>
+    .extra-space {
+    margin-left: 20rem;
+}
+
+
+    .card:hover {
+    transform: translateY(-10px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+
+}
+</style>
 <div class="container my-5">
     <div class="d-flex align-items-center mb-4">
         <img src="{{ profile.profile_photo.url }}" alt="Profile Photo" class="rounded-circle me-3" width="60" height="60" style="object-fit: cover;">
-        <h4 class="mb-0">{{ profile.designer.user.username }}</h4>
+        <div>
+            <h4 class="mb-0">{{ profile.designer.user.username }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></h4>
+            <small class="mb-0">{{ profile.designer.specialty }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</small>
+        </div>
+
+
+        <br>
+        {% if average_rating %}
+        <i class="bi bi-star-fill">&nbsp;</i> {{ average_rating }}/5
+        {% else %}
+                 .../5
+        {% endif %}
+     {% if request.user.is_authenticated and not request.user.is_designer %}
         <a href="{% url 'users:add_bookmark_view' profile.id %}" class="ms-auto">
                 {% if is_bookmarked %}
                     <i class="bi bi-bookmark-check-fill" style="color: black; font-size: 1.5rem;"></i>
@@ -14,6 +40,9 @@
                     <i class="bi bi-bookmark-plus" style="color: black; font-size: 1.5rem;"></i>
                 {% endif %}
             </a>
+        {% else %}
+        <br>
+        {% endif %}
     </div>
 
     <div class="row align-items-start">
@@ -38,17 +67,26 @@
             </div>
             {% endif %}
 
-            <div class="text-start ps-3">
-                {% if profile.instagram_url %}
-                <p><strong>Instagram:</strong> <a href="{{ profile.instagram_url }}" target="_blank" class="text-decoration-none">{{ profile.instagram_url }}</a></p>
-                {% endif %}
-                {% if profile.linkedin_url %}
-                <p><strong>LinkedIn:</strong> <a href="{{ profile.linkedin_url }}" target="_blank" class="text-decoration-none">{{ profile.linkedin_url }}</a></p>
-                {% endif %}
-                {% if profile.portfolio_url %}
-                <p><strong>Portfolio:</strong> <a href="{{ profile.portfolio_url }}" target="_blank" class="text-decoration-none">{{ profile.portfolio_url }}</a></p>
-                {% endif %}
-            </div>
+            <div class="text-start ps-3 d-flex gap-3">
+            {% if profile.instagram_url %}
+                <a href="{{ profile.instagram_url }}" target="_blank" class="text-decoration-none" style="color: black;">
+                    <i class="bi bi-instagram fs-4"></i>
+                </a>
+            {% endif %}
+
+            {% if profile.linkedin_url %}
+                <a href="{{ profile.linkedin_url }}" target="_blank" class="text-decoration-none" style="color: black;">
+                    <i class="bi bi-linkedin fs-4"></i>
+                </a>
+            {% endif %}
+
+            {% if profile.portfolio_url %}
+                <a href="{{ profile.portfolio_url }}" target="_blank" class="text-decoration-none" style="color: black;">
+                    <i class="bi bi-person-bounding-box fs-4"></i>
+                </a>
+            {% endif %}
+        </div>
+
         </div>
 
         <div class="col-md-6">
@@ -57,10 +95,12 @@
                 <p class="text-muted">{{ profile.about_me }}</p>
                 <hr>
                 <h6>Availability</h6>
-                <p>{% if profile.availability %}Available{% else %}Not Available{% endif %}</p>
+                <p style="color: green">{% if profile.availability %}Available{% else %}Not Available{% endif %}</p>
+
                 <h6>Contact Email</h6>
-                <p><a href="mailto:{{ profile.contact_email }}" class="text-decoration-none">{{ profile.contact_email }}</a></p>
-                <a class="btn btn-dark" href="#" role="button">Send Request Now! </a>
+                <div class="d-flex align-items-center">
+                    <a class="btn btn-dark" href="mailto:{{ profile.contact_email }}" role="button"><i class="bi bi-envelope-fill"></i>&nbsp;&nbsp;{{ profile.contact_email }}</a>
+                   <h6 class="extra-space mb-0"> {{profile.designer.pricing}} SAR</h6>
             </div>
         </div>
     </div>
@@ -112,7 +152,42 @@
             Only registered clients can leave a review. <a href="{% url 'users:login_view' %}">Login</a> to review.
         </div>
     {% endif %}
+
+    <hr>
+<h2 class="mt-5 mb-4">Related Designers</h2>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for rd in related_designer %}
+        <div class="col">
+            <a href="{% url 'designer:post_to_user_view' rd.id %}" class="text-decoration-none text-dark">
+            <div class="card h-100 text-center shadow-sm">
+                <div class="d-flex align-items-center m-4">
+        <img src="{{ rd.profile_photo.url }}" alt="Profile Photo" class="rounded-circle me-3" width="40" height="40" style="object-fit: cover;">
+        <h6 class="mb-0">{{ rd.designer.user.username }}&nbsp;&nbsp;&nbsp;</h6>
+        <br>
+
+                </div>
+                <div class="carousel-inner rounded text-center">
+                            {% with rd.work_samples.first as sample %}
+                                {% if sample %}
+                                    <img src="{{ sample.image.url }}"
+                                         class="w-50 rounded m-3 border"
+                                         alt="Work Sample"
+                                         style="max-height: 130px; object-fit: contain;">
+                                {% endif %}
+                            {% endwith %}
+                        </div>                <div class="card-body">
+                    <h6>{{ rd.designer.user.username }}</h6>
+                    <p class="text-muted small">{{ rd.designer.specialty }}</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p class="text-muted">No related designers found.</p>
+    {% endfor %}
 </div>
+
 
 
 

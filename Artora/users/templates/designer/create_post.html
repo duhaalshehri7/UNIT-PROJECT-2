@@ -1,20 +1,61 @@
 {% extends 'main/base.html' %}
 
-{% block title %}Create your post {% endblock %}
+{% block title %}Create your post{% endblock %}
 
 {% block content %}
-<h2>Create your Post</h2>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Create Your Designer Post</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form method="post" enctype="multipart/form-data" class="p-4 border rounded shadow-sm bg-light">
+                {% csrf_token %}
 
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
+                <div class="mb-3">
+                    <label for="id_profile_photo" class="form-label">Profile Photo</label>
+                    <input type="file" name="profile_photo" id="id_profile_photo" class="form-control">
+                </div>
 
-    <div>
-        <label>Work Samples (Select multiple files)</label>
-        <input type="file" name="work_samples" multiple>
+                <div class="mb-3">
+                    <label for="id_about_me" class="form-label">About Me</label>
+                    <textarea name="about_me" id="id_about_me" class="form-control" rows="4" required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_availability" class="form-label">Availability</label>
+                    <select name="availability" id="id_availability" class="form-select">
+                        <option value="True">Available</option>
+                        <option value="False">Not Available</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_contact_email" class="form-label">Contact Email</label>
+                    <input type="email" name="contact_email" id="id_contact_email" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_portfolio_url" class="form-label">Portfolio URL</label>
+                    <input type="url" name="portfolio_url" id="id_portfolio_url" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_instagram_url" class="form-label">Instagram URL</label>
+                    <input type="url" name="instagram_url" id="id_instagram_url" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_linkedin_url" class="form-label">LinkedIn URL</label>
+                    <input type="url" name="linkedin_url" id="id_linkedin_url" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Work Samples (Select multiple files)</label>
+                    <input type="file" name="work_samples" class="form-control" multiple>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Create Post</button>
+            </form>
+        </div>
     </div>
-
-    <button type="submit">Create Post</button>
-</form>
-
+</div>
 {% endblock %}

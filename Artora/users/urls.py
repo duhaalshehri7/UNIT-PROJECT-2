@@ -10,7 +10,7 @@ urlpatterns = [
     path('signup/designer', views.designer_signup_view, name='designer_signup_view'),
     path('login/', views.login_view, name='login_view'),
     path('logout/', views.logout_view, name='logout_view'),
-    path('profile/<user_name>/', views.user_profile_view, name='user_profile_view'),
+
 
 
     path('post/create/', views.create_post_view, name='create_post_view'),
@@ -18,5 +18,8 @@ urlpatterns = [
     path('post/delete/<post_id>/', views.delete_post_view, name='delete_post_view'),
     path('post/view/<post_id>/', views.view_post_view, name='view_post_view'),
     path('bookmark/<post_id>/', views.add_bookmark_view, name='add_bookmark_view'),
+
+    path('profile/<user_id>/', views.user_profile_view, name="user_profile_view"),
+    path('profile/<int:user_id>/edit/', views.edit_user_profile_view, name='edit_user_profile_view'),
 
 ]

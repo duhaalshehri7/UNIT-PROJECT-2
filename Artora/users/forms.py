@@ -20,7 +20,7 @@ class DesignerSignUpForm(UserCreationForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.is_designer = True  # Mark user as a designer
+        user.is_designer = True
         if commit:
             user.save()
             DesignerProfile.objects.create(

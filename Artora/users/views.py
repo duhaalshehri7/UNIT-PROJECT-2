@@ -10,6 +10,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 
 
+
 def sign_up_as_view(request : HttpRequest):
 	return render(request, 'users/sign_up_as.html')
 
@@ -90,20 +91,23 @@ def logout_view(request):
 
 
 
-def user_profile_view(request: HttpRequest, user_name: str):
+
+def user_profile_view(request, user_id):
     try:
-        user = CustomUser.objects.get(username=user_name)
-
-        designer_profile = None
-        if user.is_designer:
-            try:
-                designer_profile = DesignerProfile.objects.get(user=user)
-            except DesignerProfile.DoesNotExist:
-                designer_profile = None
+        profile_user = CustomUser.objects.get(id=user_id)
     except CustomUser.DoesNotExist:
-        return print("User not found")
+        messages.error(request, "an error occurred.", "alert-danger")
+        return redirect("main:main_page_view")
 
-    return render(request, 'profiles/profile.html', {"user": user,"designer_profile": designer_profile})
+    designer_profile = None
+    if profile_user.is_designer:
+        designer_profile = DesignerProfile.objects.filter(user=profile_user).first()
+
+    return render(request, 'profiles/profile.html', {
+        'profile_user': profile_user,
+        'designer_profile': designer_profile,
+    })
+
 
 
 def create_post_view(request):
@@ -123,7 +127,7 @@ def create_post_view(request):
     try:
         post = DesignerPost.objects.get(designer=designer_profile)
     except DesignerPost.DoesNotExist:
-        pass  # No post found, post is set to None
+        pass
 
     if request.method == 'POST':
         form = DesignerPostForm(request.POST, request.FILES)
@@ -136,7 +140,7 @@ def create_post_view(request):
             for image in work_samples:
                 DesignerPostImage.objects.create(designer_post=post, image=image)
 
-            messages.success(request, "Your post has been created!")
+            messages.success(request, "Your post has been created!",'alert-success')
             return redirect('users:edit_post_view', post_id=post.id)
     else:
         form = DesignerPostForm()
@@ -165,12 +169,17 @@ def edit_post_view(request, post_id):
         form = DesignerPostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             form.save()
-            messages.success(request, "Your post has been updated!")
+            work_samples = request.FILES.getlist('work_samples')
+            for image in work_samples:
+                DesignerPostImage.objects.create(designer_post=post, image=image)
+
+            messages.success(request, "Your post has been updated!",'alert-success')
             return redirect('users:edit_post_view', post_id=post.id)
     else:
         form = DesignerPostForm(instance=post)
 
-    return render(request, 'designer/edit_post.html', {'form': form, 'post': post})
+    work_samples = post.work_samples.all()
+    return render(request, 'designer/edit_post.html', {'form': form, 'post': post, 'work_samples': work_samples})
 
 
 
@@ -192,7 +201,7 @@ def delete_post_view(request, post_id):
 
     if request.method == 'POST':
         post.delete()
-        messages.success(request, "Your post has been deleted!")
+        messages.success(request, "Your post has been deleted!",'alert-success')
         return redirect('users:create_post_view')
 
 
@@ -222,13 +231,59 @@ def add_bookmark_view(request, post_id):
         bookmark = Bookmark.objects.filter(designer_post=post, user=request.user).first()
         if not bookmark:
             Bookmark.objects.create(user=request.user, designer_post=post)
-            messages.success(request, "Bookmark added", "alert-success")
+            # messages.success(request, "Bookmark added", "alert-success")
         else:
             bookmark.delete()
-            messages.warning(request, "Bookmark removed", "alert-warning")
+            # messages.warning(request, "Bookmark removed", "alert-warning")
 
     except Exception as e:
         print("Bookmark error:", e)
 
     return redirect("designer:post_to_user_view", post_id=post_id)
 
+
+
+def edit_user_profile_view(request, user_id):
+    print("Logged in user ID:", request.user.id)
+    print("URL user ID:", user_id)
+    if not request.user.is_authenticated:
+        messages.warning(request, "Please login to edit your profile.", "alert-warning")
+        return redirect("users:login_view")
+
+    if request.user.id != user_id:
+        messages.warning(request, "You cannot edit this profile", "alert-warning")
+        return redirect("main:main_page_view")
+
+    try:
+        user = CustomUser.objects.get(id=user_id)
+    except CustomUser.DoesNotExist:
+        messages.error(request, "User not found.", "alert-danger")
+        return redirect("main:main_page_view")
+
+    designer_profile = None
+    if user.is_designer:
+        designer_profile = DesignerProfile.objects.filter(user=user).first()
+
+    if request.method == "POST":
+        user.username = request.POST.get("username")
+        user.email = request.POST.get("email")
+
+        if user.is_designer:
+            if designer_profile:
+                designer_profile.specialty = request.POST.get("specialty")
+                designer_profile.location = request.POST.get("location")
+                designer_profile.experience = request.POST.get("experience")
+                designer_profile.experience_level = request.POST.get("experience_level")
+                designer_profile.pricing = request.POST.get("pricing")
+                designer_profile.save()
+        else:
+            user.description = request.POST.get("description")
+
+        user.save()
+        messages.success(request, "Profile updated successfully!", "alert-success")
+        return redirect("users:user_profile_view", user_id=user.id)
+
+    return render(request, "profiles/update_profile.html", {
+        "user": user,
+        "designer_profile": designer_profile,
+    })
