@@ -53,3 +53,5 @@ Base on what you’ve learned until now , create a project of your choosing. Imp
 
 
 
+[Artora-Wireframe.pdf](https://github.com/user-attachments/files/19719250/Artora-Wireframe.pdf)
+[Artora UML diagram.pdf](https://github.com/user-attachments/files/19719249/Artora.UML.diagram.pdf)
